@@ -1,5 +1,5 @@
 # SDF2
-Signed Distance Functions for Software Defined Forms
+Signed Distance Functions for Script Defined Forms
 
 ### About
 Programatically define forms with basic primitives, transformations, and
