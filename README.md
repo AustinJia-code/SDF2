@@ -18,7 +18,7 @@ make
 ```
 3. Run:
 ```
-./SDF2 <PATH_TO_SCRIPT> -o <PATH_TO_STL>
+./superblob -o <PATH_TO_STL_OUT>
 ```
 
 ### Future Work
