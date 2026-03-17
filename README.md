@@ -1,11 +1,9 @@
-### SDF2
+# SDF2
+### About
 Signed Distance Functions for Script Defined FDM
 
 Programatically define forms with basic primitives, transformations, and
 boolean operations.
-
-### Install Dependencies
-
 
 ### Build & Run
 1. Install Dependencies:
