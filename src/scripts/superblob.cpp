@@ -24,15 +24,15 @@ int main (int argc, char *argv[])
     std::string out_path = (*out_arg)[0];
 
     // Build form
-    auto sphere = add_translation (
-                    make_sphere (28),
-                    gu::vec3_t (15, 15, 15));
-    auto box = make_box (gu::vec3_t (20, 20, 20));
+    // auto sphere = add_translation (
+    //                 make_sphere (28),
+    //                 gu::vec3_t (15, 15, 15));
+    auto form = add_rotation (make_box (40, 40, 40), Z_AXIS, 20);
 
     // auto form = build_union (sphere, box);
     // auto form = build_union (sphere, box, gu::dist_t {5});
     // auto form = build_intersection (sphere, box);
-    auto form = build_difference (sphere, box);
+    // auto form = build_difference (sphere, box);
 
     // Output
     auto stl = form_to_stl ("superblob", form, gu::dist_t {0.5});

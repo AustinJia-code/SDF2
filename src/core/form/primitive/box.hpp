@@ -37,9 +37,9 @@ public:
 };
 
 /**
- * Make a box form with half-extents b.
+ * Make a box form with dimensions l, w, h == x, y, z
  */
-FormPtr make_box (gu::vec3_t b, gu::dist_t r = 0)
+FormPtr make_box (gu::dist_t l, gu::dist_t w, gu::dist_t h, gu::dist_t r = 0)
 {
-    return std::make_shared<Box> (b, r);
+    return std::make_shared<Box> (gu::vec3_t (l / 2, w / 2, h / 2), r);
 }
