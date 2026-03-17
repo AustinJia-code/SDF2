@@ -9,7 +9,6 @@
 #include "minis/utils/geo_utils.hpp"
 
 namespace gu = gutils;
-using FormPtr = std::shared_ptr<Form>;
 
 struct BoundingBox
 {
@@ -24,3 +23,5 @@ public:
     virtual gu::dist_t dist (const gu::vec3_t& p) const = 0;
     virtual BoundingBox bbox () const = 0;
 };
+
+using FormPtr = std::shared_ptr<Form>;

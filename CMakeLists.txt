@@ -4,5 +4,5 @@ project (SDF2)
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable (SDF2 src/main.cpp)
-target_include_directories (SDF2 PRIVATE dep src)
+add_executable (superblob src/scripts/superblob.cpp)
+target_include_directories (superblob PRIVATE dep src)
