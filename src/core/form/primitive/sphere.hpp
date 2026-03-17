@@ -20,14 +20,20 @@ public:
 
     gu::dist_t dist (const gu::vec3_t& p) const override
     {
-        return p.mag () - r;
+        return gu::mag (p) - r;
+    }
+
+    BoundingBox bbox () const override
+    {
+        return {{-r, -r, -r},
+                {r, r, r}};
     }
 };
 
 /**
  * Make a sphere form with radius r.
  */
-FormPtr sphere (gu::dist_t r)
+FormPtr make_sphere (gu::dist_t r)
 {
     return std::make_shared<Sphere> (r);
 }

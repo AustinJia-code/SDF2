@@ -24,12 +24,18 @@ public:
     {
         return std::max (a->dist (p), b->dist (p));
     }
+
+    BoundingBox bbox () const override
+    {
+        return {gu::max (a->bbox ().min, b->bbox ().min),
+                gu::min (a->bbox ().max, b->bbox ().max)};
+    }
 };
 
 /**
- * Make an intersection form of a and b.
+ * Build an intersection form of a and b.
  */
-FormPtr intersection_op (FormPtr a, FormPtr b)
+FormPtr build_intersection (FormPtr a, FormPtr b)
 {
     return std::make_shared<Intersection> (a, b);
 }

@@ -5,12 +5,14 @@
 
 #pragma once
 
-// Binary operations
-#include "form/binary/union.hpp"
-#include "form/binary/intersection.hpp"
-#include "form/binary/difference.hpp"
+// Boolean operations
+#include "form/boolean/union.hpp"
+#include "form/boolean/intersection.hpp"
+#include "form/boolean/difference.hpp"
 
 // Primitives
 #include "form/primitive/sphere.hpp"
 
 // Transforms
+#include "form/transform/rotation.hpp"
+#include "form/transform/translation.hpp"

@@ -24,12 +24,17 @@ public:
     {
         return std::max (a->dist (p), -b->dist (p));
     }
+
+    BoundingBox bbox () const override
+    {
+        return a->bbox ();
+    }
 };
 
 /**
- * Make a difference form of a and b.
+ * Build a difference form of a and b.
  */
-FormPtr difference_op (FormPtr a, FormPtr b)
+FormPtr build_difference (FormPtr a, FormPtr b)
 {
     return std::make_shared<Difference> (a, b);
 }

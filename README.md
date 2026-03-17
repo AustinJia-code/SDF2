@@ -22,7 +22,9 @@ make
 ```
 
 ### Future Work
-* N/A
+* True sampling
+* Decimation
+* Smoothing
 
 ### Acknowledgements
 Inspiration from Michael Fogelman: [fogleman/sdf](https://github.com/fogleman/sdf)
