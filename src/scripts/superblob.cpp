@@ -24,21 +24,29 @@ int main (int argc, char *argv[])
     std::string out_path = (*out_arg)[0];
 
     // Build form
-    // auto sphere = add_translation (
-    //                 make_sphere (28),
-    //                 gu::vec3_t (15, 15, 15));
-    auto form = add_rotation (make_box (40, 40, 40), Z_AXIS, 20);
+    auto sphere =   add_translation (
+                        make_sphere (28),
+                        gu::vec3_t (15, 15, 15));
+    auto box =      add_rotation (
+                        make_box (40, 40, 40),
+                        Z_AXIS, 10);
+    auto cylinder = add_rotation (
+                        make_cylinder (10, 80),
+                        Y_AXIS, 90);
 
-    // auto form = build_union (sphere, box);
-    // auto form = build_union (sphere, box, gu::dist_t {5});
-    // auto form = build_intersection (sphere, box);
-    // auto form = build_difference (sphere, box);
+    auto form =     build_difference (
+                        build_union (
+                            sphere,
+                            box,
+                            gu::dist_t {5}),
+                        cylinder,
+                        gu::dist_t {5});
 
     // Output
-    auto stl = form_to_stl ("superblob", form, gu::dist_t {0.5});
+    auto stl = form_to_stl ("superblob", form, gu::dist_t {0.2});
     std::ofstream file (out_path);
     file << stl;
     file.close ();
 
-    return 0;
+    return EXIT_SUCCESS;
 }

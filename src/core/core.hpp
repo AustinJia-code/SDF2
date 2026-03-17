@@ -13,6 +13,7 @@
 // Primitives
 #include "form/primitive/sphere.hpp"
 #include "form/primitive/box.hpp"
+#include "form/primitive/cylinder.hpp"
 
 // Transforms
 #include "form/transform/rotation.hpp"

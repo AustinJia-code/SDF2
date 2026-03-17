@@ -44,31 +44,40 @@ trimesh_t marching_cubes (std::shared_ptr<const Form> form,
             for (gu::dist_t z = min.z; z < max.z; z += cube_size)
             {
                 // Sample
-                int vs = 0;
+                int v_flags = 0;
                 std::array<gu::vec3_t, 8> vert_pos;
+                std::array<gu::dist_t, 8> v_sdf;
+
                 for (int i = 0; i < 8; i++)
                 {
                     vert_pos[i] = {x + v_offsets[i][0] * cube_size,
                                    y + v_offsets[i][1] * cube_size,
                                    z + v_offsets[i][2] * cube_size};
 
-                    vs |= (form->dist (vert_pos[i]) > 0) << i;
+                    v_sdf[i] = form->dist (vert_pos[i]);
+
+                    v_flags |= (v_sdf[i] > 0) << i;
                 }
 
                 // Get triangles for vertex state
-                const auto& edgetris = v_to_etri[vs];
+                const auto& edgetris = v_to_etri[v_flags];
+
+                auto interp = [&] (int e)
+                {
+                    int va = e_to_v[e][0];
+                    int vb = e_to_v[e][1];
+                    float t = v_sdf[va] / (v_sdf[va] - v_sdf[vb]);
+                    
+                    return vert_pos[va] + (vert_pos[vb] - vert_pos[va]) * t;
+                };
+
                 for (size_t i = 0; i < edgetris.size (); i += 3)
                 {
                     mesh.push_back
                     ({
-                        (vert_pos[e_to_v[edgetris[i]][0]] +
-                         vert_pos[e_to_v[edgetris[i]][1]]) / 2,
-
-                        (vert_pos[e_to_v[edgetris[i + 1]][0]] +
-                         vert_pos[e_to_v[edgetris[i + 1]][1]]) / 2,
-
-                        (vert_pos[e_to_v[edgetris[i + 2]][0]] +
-                         vert_pos[e_to_v[edgetris[i + 2]][1]]) / 2
+                        interp(edgetris[i]),
+                        interp(edgetris[i + 1]),
+                        interp(edgetris[i + 2])
                     });
                 }
             }
