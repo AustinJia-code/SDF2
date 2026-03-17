@@ -29,6 +29,21 @@ namespace gu = gutils;
 //              v0         e0          v1
 
 /**
+ * Maps vertex index to offset from cube origin
+ */
+const std::array<std::array<int,3>, 8> v_offsets =
+{{
+    {0, 0, 0}, // v0
+    {1, 0, 0}, // v1
+    {1, 1, 0}, // v2
+    {0, 1, 0}, // v3
+    {0, 0, 1}, // v4
+    {1, 0, 1}, // v5
+    {1, 1, 1}, // v6
+    {0, 1, 1}  // v7
+}};
+
+/**
  * Maps edge index to vertices
  */
 const std::array<std::array<int, 2>, 12> e_to_v

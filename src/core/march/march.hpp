@@ -29,9 +29,9 @@ trimesh_t marching_cubes (std::shared_ptr<const Form> form,
 
     // Make bounds divisible and add padding for easier math
     gu::vec3_t deltas = max - min;
-    min.x -= std::fmod (deltas.x, cube_size) / 2 - cube_size;
-    min.y -= std::fmod (deltas.y, cube_size) / 2 - cube_size;
-    min.z -= std::fmod (deltas.z, cube_size) / 2 - cube_size;
+    min.x -= std::fmod (deltas.x, cube_size) / 2 + cube_size;
+    min.y -= std::fmod (deltas.y, cube_size) / 2 + cube_size;
+    min.z -= std::fmod (deltas.z, cube_size) / 2 + cube_size;
     max.x += std::fmod (deltas.x, cube_size) / 2 + cube_size;
     max.y += std::fmod (deltas.y, cube_size) / 2 + cube_size;
     max.z += std::fmod (deltas.z, cube_size) / 2 + cube_size;
@@ -48,9 +48,9 @@ trimesh_t marching_cubes (std::shared_ptr<const Form> form,
                 std::array<gu::vec3_t, 8> vert_pos;
                 for (int i = 0; i < 8; i++)
                 {
-                    vert_pos[i] = {x + (i & 1)        * cube_size,
-                                   y + ((i >> 1) & 1) * cube_size,
-                                   z + ((i >> 2) & 1) * cube_size};
+                    vert_pos[i] = {x + v_offsets[i][0] * cube_size,
+                                   y + v_offsets[i][1] * cube_size,
+                                   z + v_offsets[i][2] * cube_size};
 
                     vs |= (form->dist (vert_pos[i]) > 0) << i;
                 }

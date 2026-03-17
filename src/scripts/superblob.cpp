@@ -27,7 +27,6 @@ int main (int argc, char *argv[])
 
     auto form = build_union (sphere, box);
 
-
     // Output
     auto stl = form_to_stl ("superblob", form);
     std::ofstream file (out_path);
