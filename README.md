@@ -22,7 +22,6 @@ make
 ```
 
 ### Future Work
-* Decimation
 * Smoothing
 
 ### Acknowledgements

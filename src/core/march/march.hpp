@@ -62,7 +62,7 @@ trimesh_t marching_cubes (std::shared_ptr<const Form> form,
                 // Get triangles for vertex state
                 const auto& edgetris = v_to_etri[v_flags];
 
-                auto interp = [&] (int e)
+                auto lerp = [&] (int e)
                 {
                     int va = e_to_v[e][0];
                     int vb = e_to_v[e][1];
@@ -75,10 +75,10 @@ trimesh_t marching_cubes (std::shared_ptr<const Form> form,
                 {
                     mesh.push_back
                     ({
-                        interp(edgetris[i]),
-                        interp(edgetris[i + 1]),
-                        interp(edgetris[i + 2])
-                    });
+                        lerp (edgetris[i]),
+                        lerp (edgetris[i + 1]),
+                        lerp (edgetris[i + 2])
+                    }); 
                 }
             }
         }
