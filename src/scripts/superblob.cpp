@@ -7,7 +7,7 @@
 
 #include "minis/arg_parser/arg_parser.hpp"
 
-#include "core/core.hpp"
+#include "core/sdf2.hpp"
 #include <iostream>
 #include <fstream>
 

@@ -8,17 +8,9 @@
 
 #include <vector>
 #include <array>
-#include "core/form/form.hpp"
 #include "cube_lut.hpp"
-
-struct tri_t
-{
-    gu::vec3_t v1;
-    gu::vec3_t v2;
-    gu::vec3_t v3;
-};
-
-using trimesh_t = std::vector<tri_t>;
+#include "common/form.hpp"
+#include "common/tri.hpp"
 
 trimesh_t marching_cubes (std::shared_ptr<const Form> form,
                           gu::dist_t cube_size = 1)

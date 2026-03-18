@@ -1,6 +1,6 @@
 /**
- * @file core.hpp
- * @brief Include helper for all core components.
+ * @file sdf2.hpp
+ * @brief Include helper for all sdf2 core components.
  */
 
 #pragma once
@@ -19,13 +19,17 @@
 #include "form/transform/rotation.hpp"
 #include "form/transform/translation.hpp"
 
+// Marching cubes
+#include "march/march.hpp"
+
 // Form to stl helper
-#include "stl.hpp"
+#include "mesh/stl.hpp"
+#include "mesh/decimate.hpp"
 
 std::string form_to_stl (const std::string name,
                          std::shared_ptr<const Form> form,
                          gu::dist_t cube_size = 1,
-                         gu::dist_t decimation_thresh = 0)
+                         gu::dist_t decimation_thresh = -1)
 {
     trimesh_t trimesh = marching_cubes (form, cube_size);
 

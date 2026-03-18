@@ -21,7 +21,7 @@ make
 ./<SCRIPT_NAME> -o <PATH_TO_STL_OUT>
 ```
 
-### Future Work
+### To Do
 * Smoothing
 
 ### Acknowledgements

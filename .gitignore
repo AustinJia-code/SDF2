@@ -3,3 +3,4 @@ build/
 dep/
 !dep/.gitkeep
 .vscode/
+.fun-bugouts

@@ -6,7 +6,7 @@
 #pragma once
 
 #include <array>
-#include "core/form/form.hpp"
+#include "common/form.hpp"
 
 const gu::vec3_t X_AXIS = gu::vec3_t (1, 0, 0);
 const gu::vec3_t Y_AXIS = gu::vec3_t (0, 1, 0);
