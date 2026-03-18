@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "common/tri.hpp"
+#include "core/common/tri.hpp"
 #include <unordered_map>
 #include <array>
 

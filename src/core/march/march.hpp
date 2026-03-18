@@ -9,8 +9,8 @@
 #include <vector>
 #include <array>
 #include "cube_lut.hpp"
-#include "common/form.hpp"
-#include "common/tri.hpp"
+#include "core/common/form.hpp"
+#include "core/common/tri.hpp"
 
 trimesh_t marching_cubes (std::shared_ptr<const Form> form,
                           gu::dist_t cube_size = 1)

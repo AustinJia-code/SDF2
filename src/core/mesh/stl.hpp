@@ -6,7 +6,7 @@
 #pragma once
 
 #include <string>
-#include "common/tri.hpp"
+#include "core/common/tri.hpp"
 
 /**
  * Convert trimesh to STL format string
