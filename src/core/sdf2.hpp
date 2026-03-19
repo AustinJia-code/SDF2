@@ -25,6 +25,7 @@
 // Form to stl helper
 #include "mesh/stl.hpp"
 #include "mesh/decimate.hpp"
+#include "mesh/coalesce.hpp"
 
 std::string form_to_stl (const std::string name,
                          std::shared_ptr<const Form> form,
@@ -32,9 +33,10 @@ std::string form_to_stl (const std::string name,
                          gu::dist_t decimation_thresh = -1)
 {
     trimesh_t trimesh = marching_cubes (form, cube_size);
+    trimesh = coalesce (trimesh);
 
-    if (decimation_thresh > 0)
-        trimesh = decimate (trimesh, decimation_thresh);
+    // if (decimation_thresh > 0)
+    //     trimesh = decimate (trimesh, decimation_thresh);
 
     return trimesh_to_stl (name, trimesh);
 }

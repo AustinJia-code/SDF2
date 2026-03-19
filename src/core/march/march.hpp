@@ -11,6 +11,9 @@
 #include "cube_lut.hpp"
 #include "core/common/form.hpp"
 #include "core/common/tri.hpp"
+#include "minis/utils/math_utils.hpp"
+
+namespace mu = mutils;
 
 trimesh_t marching_cubes (std::shared_ptr<const Form> form,
                           gu::dist_t cube_size = 1)
@@ -60,7 +63,10 @@ trimesh_t marching_cubes (std::shared_ptr<const Form> form,
                     int vb = e_to_v[e][1];
                     float t = v_sdf[va] / (v_sdf[va] - v_sdf[vb]);
                     
-                    return vert_pos[va] + (vert_pos[vb] - vert_pos[va]) * t;
+                    gu::vec3_t v = vert_pos[va]
+                                + (vert_pos[vb] - vert_pos[va]) * t;
+                    
+                    return v;
                 };
 
                 for (size_t i = 0; i < edgetris.size (); i += 3)

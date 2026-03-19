@@ -22,6 +22,7 @@ make
 ```
 
 ### To Do
+* Decimation
 * Smoothing
 
 ### Acknowledgements
