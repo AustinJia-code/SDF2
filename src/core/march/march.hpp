@@ -2,6 +2,9 @@
  * @file march.hpp
  * @brief Marching Cubes for isosurface extraction.
  * @cite https://www.cs.carleton.edu/cs_comps/0405/shape/marching_cubes.html
+ * 
+ * @todo
+ *    - Cache vertex positions
  */
 
 #pragma once
@@ -61,7 +64,7 @@ trimesh_t marching_cubes (std::shared_ptr<const Form> form,
                 {
                     int va = e_to_v[e][0];
                     int vb = e_to_v[e][1];
-                    float t = v_sdf[va] / (v_sdf[va] - v_sdf[vb]);
+                    double t = v_sdf[va] / (v_sdf[va] - v_sdf[vb]);
                     
                     gu::vec3_t v = vert_pos[va]
                                 + (vert_pos[vb] - vert_pos[va]) * t;

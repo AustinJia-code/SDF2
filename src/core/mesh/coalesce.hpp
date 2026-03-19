@@ -12,67 +12,112 @@
 #include <unordered_map>
 #include <iostream>
 #include "core/common/tri.hpp"
+#include "core/common/hash.hpp"
 
-inline void canonicalize (gu::vec3_t& n, gu::dist_t& d)
-{
-    if (n.x < 0 || (n.x == 0 && (n.y < 0 || (n.y == 0 && n.z < 0))))
-    {
-        n = n * -1;
-        d = -d;
-    }
-}
-
-struct plane_key
-{
-    int64_t nx, ny, nz, d;
-
-    bool operator== (const plane_key& other) const
-    {
-        return nx == other.nx
-            && ny == other.ny
-            && nz == other.nz
-            && d == other.d;
-    }
-};
-
-struct plane_key_hash
-{
-    std::size_t operator() (const plane_key& k) const
-    {
-        std::size_t h = 0;
-        h ^= std::hash<int64_t> {} (k.nx) + 0x9e3779b9 + (h << 6) + (h >> 2);
-        h ^= std::hash<int64_t> {} (k.ny) + 0x9e3779b9 + (h << 6) + (h >> 2);
-        h ^= std::hash<int64_t> {} (k.nz) + 0x9e3779b9 + (h << 6) + (h >> 2);
-        h ^= std::hash<int64_t> {} (k.d)  + 0x9e3779b9 + (h << 6) + (h >> 2);
-
-        return h;
-    }
-};
-
-plane_key make_plane_key (const tri_t& tri)
-{
-    gu::vec3_t n = get_tri_normal(tri);
-    gu::dist_t d = gu::dot (n * -1, tri.v1);
-
-    canonicalize(n, d);
-
-    return
-    {
-        mu::quantize (n.x),
-        mu::quantize (n.y),
-        mu::quantize (n.z),
-        mu::quantize (d)
-    };
-}
+static trimesh_t coalesce_plane (const std::vector<tri_t>& tris);
 
 const trimesh_t coalesce (const trimesh_t& mesh)
 {
     // Get coplanar triangles
-    std::unordered_map<plane_key, std::vector<tri_t>, plane_key_hash> plane_map;
+    std::unordered_map<triplane_key, std::vector<tri_t>, triplane_key_hash>
+        plane_map;
+
     for (const tri_t& tri : mesh)
         plane_map[make_plane_key (tri)].push_back (tri);
 
-    // Merge coplanar triangles
+    std::cout << "Coalescing " << mesh.size () << " triangles into "
+              << plane_map.size () << " planes..." << std::endl;
 
-    return mesh;
+    // Coalesce each plane and combine results
+    trimesh_t out;
+    for (const auto& [key, tris] : plane_map)
+    {
+        trimesh_t coalesced = coalesce_plane (tris);
+        out.insert (out.end (), coalesced.begin (), coalesced.end ());
+    }
+
+    std::cout << "Coalesced into " << out.size () << " triangles." << std::endl;
+
+    return out;
+}
+
+static trimesh_t coalesce_plane (const std::vector<tri_t>& tris)
+{
+    // Count edges
+    std::unordered_map<edge_t, int, edge_hash, edge_approx> edge_count;
+
+    for (const tri_t& tri : tris)
+    {
+        auto add_edge = [&](gu::vec3_t a, gu::vec3_t b)
+        {
+            if (a > b) std::swap (a, b);
+            edge_count[{a,b}]++;
+        };
+
+        add_edge (tri.v1, tri.v2);
+        add_edge (tri.v2, tri.v3);
+        add_edge (tri.v3, tri.v1);
+    }
+
+    // Get boundary loop, boundary edges will only appear once
+    std::unordered_map<gu::vec3_t, std::vector<gu::vec3_t>,
+                       vec3_hash, vec3_approx> adj;
+
+    for (auto& [edge, count] : edge_count)
+    {
+        if (count == 1)
+        {
+            adj[edge.first].push_back (edge.second);
+            adj[edge.second].push_back (edge.first);
+        }
+    }
+
+    // Walk the loop
+    std::vector<gu::vec3_t> loop;
+    gu::vec3_t prev  = adj.begin()->first;
+    gu::vec3_t start = prev;
+    gu::vec3_t cur   = adj[prev][0];
+
+    loop.push_back (prev);
+
+    while (cur != start)
+    {
+        if (loop.size () > adj.size ())
+         return tris;
+
+        // Check if we can merge
+        if (loop.size () >= 2)
+        {
+            gu::vec3_t prev_slope = gu::norm (loop[loop.size () - 1] 
+                                            - loop[loop.size () - 2]);
+            gu::vec3_t cur_slope  = gu::norm (cur - loop[loop.size () - 1]) ;
+            if (gu::approx (prev_slope, cur_slope))
+                loop.back () = cur;
+            else
+                loop.push_back (cur);
+        }
+        else
+        {
+            loop.push_back (cur);
+        }
+
+        // Of the two neighbours of cur, take the one we didn't come from
+        const auto& neighbours = adj[cur];
+        if (neighbours.size () < 2)
+            return tris;
+
+        gu::vec3_t next = (neighbours[0] != prev)
+                            ? neighbours[0]
+                            : neighbours[1];
+        prev = cur;
+        cur = next;
+    }
+
+    // Fan triangulation from first vertex
+    trimesh_t out;
+
+    for (size_t i = 1; i < loop.size () - 1; i++)
+        out.push_back ({loop[0], loop[i], loop[i + 1]});
+
+    return out;
 }
