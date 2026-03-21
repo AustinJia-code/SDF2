@@ -31,8 +31,10 @@ int main (int argc, char *argv[])
                         make_box (40, 40, 40),
                         Z_AXIS, 10);
     auto cylinder = add_rotation (
-                        make_cylinder (10, 80),
-                        Y_AXIS, 90);
+                        add_rotation (
+                            make_cylinder (10, 80),
+                            Y_AXIS, 90),
+                        Z_AXIS, 45);
 
     auto form =     build_difference (
                         build_union (

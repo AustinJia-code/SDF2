@@ -9,3 +9,6 @@ target_include_directories (superblob PRIVATE dep src)
 
 add_executable (box src/scripts/box.cpp)
 target_include_directories (box PRIVATE dep src)
+
+add_executable (wheel src/scripts/wheel.cpp)
+target_include_directories (wheel PRIVATE dep src)

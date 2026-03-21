@@ -22,6 +22,10 @@ make
 ```
 
 ### To Do
+* Pattern
+* Custom scripting language
+* Form print debugging
+* Paramaterize coalesce
 * Decimation
 * Smoothing
 

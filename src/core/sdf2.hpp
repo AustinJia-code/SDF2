@@ -19,6 +19,9 @@
 #include "form/transform/rotation.hpp"
 #include "form/transform/translation.hpp"
 
+// Complex
+#include "form/complex/pattern.hpp"
+
 // Marching cubes
 #include "march/march.hpp"
 
@@ -33,7 +36,7 @@ std::string form_to_stl (const std::string name,
                          gu::dist_t decimation_thresh = -1)
 {
     trimesh_t trimesh = marching_cubes (form, cube_size);
-    trimesh = coalesce (trimesh);
+    // trimesh = coalesce (trimesh);
 
     // if (decimation_thresh > 0)
     //     trimesh = decimate (trimesh, decimation_thresh);
