@@ -4,3 +4,4 @@ dep/
 !dep/.gitkeep
 .vscode/
 .fun-bugouts
+writeup.md

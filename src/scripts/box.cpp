@@ -9,7 +9,6 @@
 
 #include "core/sdf2.hpp"
 #include <iostream>
-#include <fstream>
 
 int main (int argc, char *argv[])
 {
@@ -28,10 +27,7 @@ int main (int argc, char *argv[])
     auto box = add_rotation (make_box (40, 40, 40), Z_AXIS, 10);
 
     // Output
-    auto stl = form_to_stl ("box", box, gu::dist_t {0.2});
-    std::ofstream file (out_path);
-    file << stl;
-    file.close ();
+    form_to_stl (box, out_path, { .cube_size = 0.2, .binary = true });
 
     return EXIT_SUCCESS;
 }

@@ -14,7 +14,7 @@
 
 static FormPtr form;
 static trimesh_t mesh;
-static std::string stl;
+static std::vector<char> stl;
 
 void march_bench ()
 {
@@ -23,7 +23,7 @@ void march_bench ()
 
 void t_to_stl_bench ()
 {
-    stl = trimesh_to_stl ("box", mesh);
+    stl = trimesh_to_stl_binary (mesh);
 }
 
 int main (int argc, char *argv[])
