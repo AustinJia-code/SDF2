@@ -22,12 +22,13 @@ make
 ```
 
 ### To Do
-* Pattern
 * Custom scripting language
 * Form print debugging
 * Paramaterize coalesce
 * Decimation
 * Smoothing
+* MS Cache vertices (no recompute)?
+* Dual Contouring
 
 ### Acknowledgements
 * Michael Fogelman: [fogleman/sdf](https://github.com/fogleman/sdf)
