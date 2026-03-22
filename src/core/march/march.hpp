@@ -50,51 +50,105 @@ trimesh_t marching_cubes (std::shared_ptr<const Form> form,
         {
             auto& local_mesh = thread_meshes[tid];
 
-            // Divide x slices evenly among threads
-            int x_start = (nx *  tid     ) / n_threads;
-            int x_end   = (nx * (tid + 1)) / n_threads;
+            int x_start = (nx * tid) / n_threads;
+            int x_end = (nx * (tid + 1)) / n_threads;
 
-            for (int xi = x_start; xi < x_end; xi++)
-            for (int yi = 0;       yi < ny;    yi++)
-            for (int zi = 0;       zi < nz;    zi++)
+            // Store planes at x = xi, x=xi+1, cache the bread of the sandwich
+            // Index w/ [yi * (nz + 1) + zi], nz +1 b/c holding corners
+            int plane_stride = nz + 1;
+            int plane_size = (ny + 1) * plane_stride;
+
+            std::vector<gu::dist_t> cur_plane (plane_size);
+            std::vector<gu::dist_t> nxt_plane (plane_size);
+
+            auto fill_plane = [&] (std::vector<gu::dist_t>& plane, int xi)
             {
                 gu::dist_t x = min.x + xi * cube_size;
-                gu::dist_t y = min.y + yi * cube_size;
-                gu::dist_t z = min.z + zi * cube_size;
+                for (int yi = 0; yi <= ny; yi++)
+                for (int zi = 0; zi <= nz; zi++)
+                    plane[yi * plane_stride + zi] =
+                        form->dist
+                        ({
+                            x,
+                            min.y + yi * cube_size,
+                            min.z + zi * cube_size
+                        });
+            };
 
-                int v_flags = 0;
-                std::array<gu::vec3_t, 8> vert_pos;
-                std::array<gu::dist_t, 8> v_sdf;
+            fill_plane (cur_plane, x_start);
 
-                for (int i = 0; i < 8; i++)
+            // March loop
+            for (int xi = x_start; xi < x_end; xi++)
+            {
+                fill_plane (nxt_plane, xi + 1);
+
+                gu::dist_t x = min.x + xi * cube_size;
+
+                for (int yi = 0; yi < ny; yi++)
+                for (int zi = 0; zi < nz; zi++)
                 {
-                    vert_pos[i] = {x + v_offsets[i][0] * cube_size,
-                                   y + v_offsets[i][1] * cube_size,
-                                   z + v_offsets[i][2] * cube_size};
+                    // Get cube vertices
+                    int i00 =  yi      * plane_stride + zi;
+                    int i10 = (yi + 1) * plane_stride + zi;
+                    int i01 =  yi      * plane_stride + zi + 1;
+                    int i11 = (yi + 1) * plane_stride + zi + 1;
 
-                    v_sdf[i] = form->dist (vert_pos[i]);
-                    v_flags |= (v_sdf[i] > 0) << i;
+                    std::array<gu::dist_t, 8> v_sdf =
+                    {{
+                        cur_plane[i00], // v0 (0,0,0)
+                        nxt_plane[i00], // v1 (1,0,0)
+                        nxt_plane[i10], // v2 (1,1,0)
+                        cur_plane[i10], // v3 (0,1,0)
+                        cur_plane[i01], // v4 (0,0,1)
+                        nxt_plane[i01], // v5 (1,0,1)
+                        nxt_plane[i11], // v6 (1,1,1)
+                        cur_plane[i11], // v7 (0,1,1)
+                    }};
+
+                    int v_flags = 0;
+                    for (int i = 0; i < 8; i++)
+                        v_flags |= (v_sdf[i] > 0) << i;
+
+                    // Build triangles
+                    const auto& edgetris = v_to_etri[v_flags];
+                    if (edgetris.empty ())
+                        continue;
+
+                    gu::dist_t y = min.y + yi * cube_size;
+                    gu::dist_t z = min.z + zi * cube_size;
+
+                    std::array<gu::vec3_t, 8> vert_pos;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        vert_pos[i] =
+                        {
+                            x + v_offsets[i][0] * cube_size,
+                            y + v_offsets[i][1] * cube_size,
+                            z + v_offsets[i][2] * cube_size
+                        };
+                    }
+
+                    auto lerp = [&] (int e)
+                    {
+                        int va = e_to_v[e][0];
+                        int vb = e_to_v[e][1];
+                        double t = v_sdf[va] / (v_sdf[va] - v_sdf[vb]);
+                        return vert_pos[va] + (vert_pos[vb] - vert_pos[va]) * t;
+                    };
+
+                    for (size_t i = 0; i < edgetris.size (); i += 3)
+                    {
+                        local_mesh.push_back
+                        ({
+                            lerp (edgetris[i]),
+                            lerp (edgetris[i + 1]),
+                            lerp (edgetris[i + 2])
+                        });
+                    }
                 }
 
-                const auto& edgetris = v_to_etri[v_flags];
-
-                auto lerp = [&] (int e)
-                {
-                    int va = e_to_v[e][0];
-                    int vb = e_to_v[e][1];
-                    double t = v_sdf[va] / (v_sdf[va] - v_sdf[vb]);
-                    return vert_pos[va] + (vert_pos[vb] - vert_pos[va]) * t;
-                };
-
-                for (size_t i = 0; i < edgetris.size (); i += 3)
-                {
-                    local_mesh.push_back
-                    ({
-                        lerp (edgetris[i]),
-                        lerp (edgetris[i + 1]),
-                        lerp (edgetris[i + 2])
-                    });
-                }
+                // No need to recompute i + 1 plane
+                std::swap (cur_plane, nxt_plane);
             }
         });
     }

@@ -27,7 +27,6 @@ make
 * Paramaterize coalesce
 * Decimation
 * Smoothing
-* MS Cache vertices (no recompute)?
 * Dual Contouring
 
 ### Acknowledgements
