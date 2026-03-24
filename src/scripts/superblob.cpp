@@ -44,7 +44,12 @@ int main (int argc, char *argv[])
                         gu::dist_t {5});
 
     // Output
-    form_to_stl (form, out_path, { .cube_size = 0.2, .binary = true });
+    form_to_stl (form, out_path,
+    {
+        .cube_size  = 0.2,
+        .coalesce   = argp.get_bool ("c").value_or (false),
+        .binary     = argp.get_bool ("b").value_or (true),
+    });
 
     return EXIT_SUCCESS;
 }

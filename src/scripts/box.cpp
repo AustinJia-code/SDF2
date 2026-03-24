@@ -27,7 +27,12 @@ int main (int argc, char *argv[])
     auto box = add_rotation (make_box (40, 40, 40), Z_AXIS, 10);
 
     // Output
-    form_to_stl (box, out_path, { .cube_size = 0.2, .binary = true });
+    form_to_stl (box, out_path,
+    {
+        .cube_size  = 0.2,
+        .coalesce   = argp.get_bool ("c").value_or (false),
+        .binary     = argp.get_bool ("b").value_or (true),
+    });
 
     return EXIT_SUCCESS;
 }
