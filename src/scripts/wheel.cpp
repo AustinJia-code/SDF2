@@ -59,14 +59,11 @@ int main (int argc, char *argv[])
                         );
 
     auto wheel =        build_union
-                        (
-                            build_union
-                            (
-                                rim,
-                                hub
-                            ),
+                        ({
+                            rim,
+                            hub,
                             spokes
-                        );
+                        });
 
     // Output
     form_to_stl (wheel, out_path,

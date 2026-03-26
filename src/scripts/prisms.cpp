@@ -28,20 +28,13 @@ int main (int argc, char *argv[])
     auto prism5 = make_circprism (5, 10, 10);
     auto prism6 = make_circprism (6, 10, 10);
 
-    // EWWW!!! TODO: Support arbitrary union param count!!
     auto form = build_union
-                (
-                    add_translation (prism3, gu::vec3_t (-15, 0, 0)),
-                    build_union
-                    (
-                        prism4,
-                        build_union
-                        (
-                            add_translation (prism5, gu::vec3_t (15, 0, 0)),
-                            add_translation (prism6, gu::vec3_t (30, 0, 0))
-                        )
-                    )
-                );
+    ({
+        add_translation (prism3, gu::vec3_t (-15, 0, 0)),
+        prism4,
+        add_translation (prism5, gu::vec3_t (15, 0, 0)),
+        add_translation (prism6, gu::vec3_t (30, 0, 0))
+    }, 5);
 
     // Output
     form_to_stl (form, out_path,

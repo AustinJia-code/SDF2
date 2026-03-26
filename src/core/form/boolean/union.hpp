@@ -1,10 +1,15 @@
 /**
  * @file union.hpp
  * @brief Union form operation.
+ * 
+ * @bug
+ *      - Strange behavior on coplaner unions w/ k > 0
  */
 
 #pragma once
 
+#include <vector>
+#include <cassert>
 #include "core/common/form.hpp"
 
 /**
@@ -13,38 +18,64 @@
 class Union : public Form
 {
 private:
-    FormPtr a;
-    FormPtr b;
+    std::vector <FormPtr> forms;
     gu::dist_t k;
 
+    gu::dist_t smin (gu::dist_t a, gu::dist_t b, gu::dist_t k) const
+    {
+        gu::dist_t h = std::max (k - std::abs (a - b), 0.0) / k;
+        return std::min (a, b) - h * h * h * k / 6.0;
+    }
+
 public:
-    Union (FormPtr a_, FormPtr b_, gu::dist_t k_ = 0)
-        : a (a_), b (b_), k (k_) {}
+    Union (const std::vector <FormPtr>& forms_, gu::dist_t k_ = 0)
+        : forms (forms_), k (k_) {}
 
     gu::dist_t dist (const gu::vec3_t& p) const override
     {
-        // Normal union
-        if (k == 0)
-            return std::min (a->dist (p), b->dist (p));
+        gu::dist_t result = forms[0]->dist (p);
 
-        // Smooth union
-        gu::dist_t h = std::max (k - std::abs (a->dist (p) - b->dist (p)),
-                                 0.0) / k;
+        for (size_t i = 1; i < forms.size (); ++i)         
+        {                                                  
+            gu::dist_t d = forms[i]->dist (p);             
+            result = (k == 0)
+                   ? std::min (result, d)
+                   : smin (result, d, k);                                           
+        }
 
-        return std::min (a->dist (p), b->dist (p)) - h * h * k * (1.0 / 4.0);       
+        return result;
     }
     
     BoundingBox bbox () const override
     {
-        return {gu::min (a->bbox ().min, b->bbox ().min),
-                gu::max (a->bbox ().max, b->bbox ().max)};
+        BoundingBox result = forms[0]->bbox ();
+
+        for (size_t i = 1; i < forms.size (); ++i)
+        {
+            BoundingBox b = forms[i]->bbox ();
+            result.min = gu::min (result.min, b.min);
+            result.max = gu::max (result.max, b.max);
+        }
+        return result;
     }
 };
 
 /**
- * Build a union form of a and b.
+ * Build a union form of two forms
  */
 FormPtr build_union (FormPtr a, FormPtr b, gu::dist_t k = 0)
 {
-    return std::make_shared<Union> (a, b, k);
+    return std::make_shared<Union> (std::vector<FormPtr>{a, b}, k);
+}
+
+/**
+ * Build a union form of multiple forms
+ * @note If less than 2 forms are provided, returns nullptr.
+ */
+FormPtr build_union (const std::vector <FormPtr>& forms, gu::dist_t k = 0)
+{
+    if (forms.size () < 2)
+        return nullptr;
+    
+    return std::make_shared<Union> (forms, k);
 }
