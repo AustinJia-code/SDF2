@@ -15,5 +15,8 @@ target_include_directories (box PRIVATE dep src)
 add_executable (wheel src/scripts/wheel.cpp)
 target_include_directories (wheel PRIVATE dep src)
 
+add_executable (prisms src/scripts/prisms.cpp)
+target_include_directories (prisms PRIVATE dep src)
+
 add_executable (box_bench src/tools/box_bench.cpp)
 target_include_directories (box_bench PRIVATE dep src)

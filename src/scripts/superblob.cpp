@@ -2,7 +2,7 @@
  * @file superblob.cpp
  * @brief Generates a superblob to demonstrate all functionality.
  * 
- * ./superblob -o ~/Projects/SDF2/out/superblob.stl
+ * ./superblob -bo ~/Projects/SDF2/out/superblob.stl
  */
 
 #include "minis/arg_parser/arg_parser.hpp"
@@ -47,8 +47,8 @@ int main (int argc, char *argv[])
     form_to_stl (form, out_path,
     {
         .cube_size  = 0.2,
-        .coalesce   = argp.get_bool ("c").value_or (false),
-        .binary     = argp.get_bool ("b").value_or (true),
+        .coalesce   = *argp.get_bool ("c"),
+        .binary     = *argp.get_bool ("b"),
     });
 
     return EXIT_SUCCESS;

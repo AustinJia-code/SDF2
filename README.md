@@ -22,13 +22,13 @@ make
 ```
 
 ### To Do
-* Custom scripting language
 * Form print debugging
-* Paramaterize coalesce
-    * Unified specific arg helper
+    * Custom scripting language
 * Decimation
 * Smoothing
 * Dual Contouring
+* Optimize pattern
+* Arbitrarily long boolean op parameters
 
 ### Acknowledgements
 * Michael Fogelman: [fogleman/sdf](https://github.com/fogleman/sdf)
