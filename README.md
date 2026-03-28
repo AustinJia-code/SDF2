@@ -12,13 +12,15 @@ git clone https://github.com/AustinJia-code/Mini-HPPs.git /dep/minis
 ```
 2. Build:
 ```
-cd build
-cmake ..
-make
+# Debug
+cmake -B build/debug -DCMAKE_BUILD_TYPE=Debug && cmake --build build/debug
+
+# Release (O3)
+cmake -B build/release -DCMAKE_BUILD_TYPE=Release && cmake --build build/release
 ```
 3. Run:
 ```
-./<SCRIPT_NAME> -o <PATH_TO_STL_OUT>
+build/[debug|release]/<SCRIPT_NAME> -o <PATH_TO_STL_OUT> [-b] [-c]
 ```
 
 ### To Do
@@ -28,7 +30,6 @@ make
 * Smoothing
 * Dual Contouring
 * Optimize pattern
-* Arbitrarily long boolean op parameters
 
 ### Acknowledgements
 * Michael Fogelman: [fogleman/sdf](https://github.com/fogleman/sdf)
