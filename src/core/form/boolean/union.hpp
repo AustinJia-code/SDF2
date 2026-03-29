@@ -3,7 +3,8 @@
  * @brief Union form operation.
  * 
  * @bug
- *      - Strange behavior on coplaner unions w/ k > 0
+ *      - Strange behavior on coplaner unions w/ k > 0, likely need normals to
+ *        fix
  */
 
 #pragma once

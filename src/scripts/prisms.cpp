@@ -22,6 +22,6 @@ int main (int argc, char* argv[])
             prism4,
             add_translation (prism5, gu::vec3_t (15, 0, 0)),
             add_translation (prism6, gu::vec3_t (30, 0, 0))
-        }, 5);
+        }, 1);
     });
 }
