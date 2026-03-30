@@ -50,9 +50,7 @@ public:
             );
         }
 
-        form = instances[0];
-        for (size_t i = 1; i < count_; i++)
-            form = build_union (form, instances[i]);
+        form = build_union (instances);
     }
 
     gu::dist_t dist (const gu::vec3_t& p) const override
