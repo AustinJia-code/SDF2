@@ -1,4 +1,5 @@
-# wheel.sdf — spoked wheel, mirrors wheel.cpp
+# @file wheel.sdf
+# @brief mirrors wheel.cpp
 # ./sdf2_script -s ~/Projects/SDF2/src/examples/wheel.sdf -bo ~/Projects/SDF2/out/wheel_script.stl
 
 rim_r     = 20

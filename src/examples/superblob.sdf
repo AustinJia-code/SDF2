@@ -1,4 +1,5 @@
-# superblob.sdf — mirrors superblob.cpp
+# @file superblob.sdf
+# @brief mirrors superblob.cpp
 # ./sdf2_script -s ~/Projects/SDF2/src/examples/superblob.sdf -bo ~/Projects/SDF2/out/superblob_script.stl
 
 sphere   = translate(sphere(28), 15, 15, 15)
