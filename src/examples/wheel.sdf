@@ -1,0 +1,25 @@
+# wheel.sdf — spoked wheel, mirrors wheel.cpp
+# ./sdf2_script -s ~/Projects/SDF2/src/examples/wheel.sdf -bo ~/Projects/SDF2/out/wheel_script.stl
+
+rim_r     = 20
+rim_thick = 2
+hub_r     = 4
+width     = 3
+n_spokes  = 6
+
+spoke_len = rim_r - rim_thick - hub_r
+spoke_mid = hub_r + spoke_len / 2
+
+rim = difference(
+    cylinder(rim_r, width),
+    cylinder(rim_r - rim_thick, width)
+)
+
+hub = cylinder(hub_r, width)
+
+spokes = pattern(
+    translate(box(spoke_len, 1.5, width * 0.8), spoke_mid, 0, 0),
+    n_spokes, Z, 0
+)
+
+out = union([rim, hub, spokes])

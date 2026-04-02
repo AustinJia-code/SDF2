@@ -24,11 +24,9 @@ build/[debug|release]/<SCRIPT_NAME> -o <PATH_TO_STL_OUT> [-b] [-c]
 ```
 
 ### To Do
-* Form print debugging
-    * Custom scripting language
-* Decimation
-* Smoothing
-* Dual Contouring
+* Live rendering w/ raymarch
+* Mirror complex
+* Dual Contouring/Marching
 * Optimize pattern
 
 ### Acknowledgements

@@ -16,17 +16,20 @@ endif ()
 
 set (SCRIPT_INCLUDES dep src)
 
-add_executable (superblob src/scripts/superblob.cpp)
+add_executable (superblob src/examples/superblob.cpp)
 target_include_directories (superblob PRIVATE ${SCRIPT_INCLUDES})
 
-add_executable (box src/scripts/box.cpp)
+add_executable (box src/examples/box.cpp)
 target_include_directories (box PRIVATE ${SCRIPT_INCLUDES})
 
-add_executable (wheel src/scripts/wheel.cpp)
+add_executable (wheel src/examples/wheel.cpp)
 target_include_directories (wheel PRIVATE ${SCRIPT_INCLUDES})
 
-add_executable (prisms src/scripts/prisms.cpp)
+add_executable (prisms src/examples/prisms.cpp)
 target_include_directories (prisms PRIVATE ${SCRIPT_INCLUDES})
 
 add_executable (box_bench src/tools/box_bench.cpp)
 target_include_directories (box_bench PRIVATE dep src)
+
+add_executable (sdf2_script src/script/sdf2_script.cpp)
+target_include_directories (sdf2_script PRIVATE ${SCRIPT_INCLUDES})
