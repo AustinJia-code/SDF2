@@ -8,6 +8,7 @@ boolean operations.
 ### Build & Run
 1. Install Dependencies:
 ```
+pip install vedo    # if using tools/stl_viewer.py
 git clone https://github.com/AustinJia-code/Mini-HPPs.git /dep/minis
 ```
 2. Build:

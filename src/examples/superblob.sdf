@@ -2,8 +2,8 @@
 # @brief mirrors superblob.cpp
 # ./sdf2_script -s ~/Projects/SDF2/src/examples/superblob.sdf -bo ~/Projects/SDF2/out/superblob_script.stl
 
-sphere   = translate(sphere(28), 15, 15, 15)
-box      = rotate(box(40, 40, 40), Z, 10)
-cylinder = rotate(rotate(cylinder(10, 80), Y, 90), Z, 45)
+sphere   = translate (sphere (28), 15, 15, 15)
+box      = rotate (box (40, 40, 40), Z, 10)
+cylinder = rotate (rotate (cylinder (10, 80), Y, 90), Z, 45)
 
-out      = difference(union(sphere, box, 5), cylinder, 5)
+out      = difference (union (sphere, box, 5), cylinder, 5)
