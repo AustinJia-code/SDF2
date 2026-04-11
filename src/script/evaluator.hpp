@@ -146,6 +146,11 @@ class Evaluator
             check (3, 3);
             return make_inscprism ((size_t) num (0, f), num (1, f), num (2, f));
         }
+        if (f == "torus")
+        {
+            check (2, 2);
+            return make_torus (num (0, f), num (1, f));
+        }
 
         /**
          * Booleans

@@ -1,0 +1,5 @@
+# @file shapes.sdf
+# @brief Misc shapes, mostly for debugging
+# ./sdf2_script -s ~/Projects/SDF2/src/examples/shapes.sdf -bo ~/Projects/SDF2/out/shapes.stl
+
+out = torus (10, 2)

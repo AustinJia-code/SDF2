@@ -15,6 +15,7 @@
 #include "form/primitive/box.hpp"
 #include "form/primitive/cylinder.hpp"
 #include "form/primitive/prism.hpp"
+#include "form/primitive/torus.hpp"
 
 // Transforms
 #include "form/transform/rotation.hpp"

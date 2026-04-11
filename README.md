@@ -29,6 +29,7 @@ build/[debug|release]/<SCRIPT_NAME> -o <PATH_TO_STL_OUT> [-b] [-c]
 * Mirror complex
 * Dual Contouring/Marching
 * Optimize pattern
+* Add keywords for coalesce, cube size etc. in lang.
 
 ### Acknowledgements
 * Michael Fogelman: [fogleman/sdf](https://github.com/fogleman/sdf)
