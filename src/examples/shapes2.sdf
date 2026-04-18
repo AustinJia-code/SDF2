@@ -1,0 +1,12 @@
+# @file shapes2.sdf
+# @brief Misc shapes, mostly for debugging
+# ./sdf2_script -s ~/Projects/SDF2/src/examples/shapes2.sdf -bo ~/Projects/SDF2/out/shapes2.stl
+
+sphere   = translate (sphere (28), 15, 15, 15)
+box      = box (40, 40, 40)
+cylinder = rotate (rotate (cylinder (10, 80), Y, 90), Z, 45)
+
+super    = difference (union (sphere, box, 5), cylinder, 5)
+super_m  = mirror (super, 1, 0, 0)
+
+out      = union (super, super_m)

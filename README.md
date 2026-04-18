@@ -25,8 +25,6 @@ build/[debug|release]/<SCRIPT_NAME> -o <PATH_TO_STL_OUT> [-b] [-c]
 ```
 
 ### To Do
-* Live rendering w/ raymarch
-* Mirror complex
 * Dual Contouring/Marching
 * Optimize pattern
 * Add keywords for coalesce, cube size etc. in lang.

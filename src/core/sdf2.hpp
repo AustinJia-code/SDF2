@@ -20,6 +20,7 @@
 // Transforms
 #include "form/transform/rotation.hpp"
 #include "form/transform/translation.hpp"
+#include "form/transform/mirror.hpp"
 
 // Complex
 #include "form/complex/pattern.hpp"

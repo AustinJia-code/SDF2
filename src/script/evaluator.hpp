@@ -231,6 +231,19 @@ class Evaluator
                                  num (2, "rotate"));
         }
 
+        if (f == "mirror")
+        {
+            check (4, 7);
+
+            if (argc == 4)
+                return add_mirror (form (0, "mirror"),
+                                   {num (1, f), num (2, f), num (3, f)});
+            else
+                return add_mirror (form (0, "mirror"),
+                                   {num (1, f), num (2, f), num (3, f)},
+                                   {num (4, f), num (5, f), num (6, f)});
+        }
+
         /**
          * Complex
          */
