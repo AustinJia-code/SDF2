@@ -5,3 +5,4 @@ dep/
 .vscode/
 .fun-bugouts
 writeup
+__pycache__/
