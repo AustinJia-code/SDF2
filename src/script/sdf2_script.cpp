@@ -43,7 +43,8 @@ int main (int argc, char* argv[])
 
     try
     {
-        Parser parser (ss.str ());
+        std::string src = ss.str ();
+        Parser parser (src);
         Evaluator evaluator;
         evaluator.run (parser.parse ());
 
