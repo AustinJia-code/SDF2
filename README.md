@@ -25,6 +25,10 @@ build/[debug|release]/<SCRIPT_NAME> -o <PATH_TO_STL_OUT> [-b] [-c]
 ```
 
 ### To Do
+* Cleanup 
+    * Get rid of defaults, too opaque on revisit
+    * Commit to either cpp or scripting
+    * General reorganization
 * Dual Contouring/Marching
 * Optimize pattern
 * Add keywords for coalesce, cube size etc. in lang.

@@ -16,6 +16,7 @@ endif ()
 
 set (SCRIPT_INCLUDES dep src)
 
+# CPP SDF2 files
 add_executable (superblob src/examples/superblob.cpp)
 target_include_directories (superblob PRIVATE ${SCRIPT_INCLUDES})
 
@@ -28,8 +29,13 @@ target_include_directories (wheel PRIVATE ${SCRIPT_INCLUDES})
 add_executable (prisms src/examples/prisms.cpp)
 target_include_directories (prisms PRIVATE ${SCRIPT_INCLUDES})
 
-add_executable (box_bench src/tools/box_bench.cpp)
-target_include_directories (box_bench PRIVATE dep src)
-
+# Script lang
 add_executable (sdf2_script src/script/sdf2_script.cpp)
 target_include_directories (sdf2_script PRIVATE ${SCRIPT_INCLUDES})
+
+# Test directory
+add_executable (box_bench tests/box_bench.cpp)
+target_include_directories (box_bench PRIVATE dep src)
+
+add_executable (gpu_test tests/gpu_test.cpp)
+target_include_directories (gpu_test PRIVATE dep src)
